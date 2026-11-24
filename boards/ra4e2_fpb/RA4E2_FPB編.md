@@ -71,7 +71,6 @@
     | ⑥ | LLVM Embedded Toolchain for Arm |
     | ⑦ | 22.1.0 |
     | ⑧ | J-Link ARM |
-    |||
 5. `Flat (Non-TrustZone) Project` を選択し、`次へ` を押下する
 6. `None` を選択し、`次へ` を押下する。
 7. 各項目より次の値を選択し、`次へ` を押下する
@@ -79,7 +78,6 @@
     |-|-|
     | Build Artifact Selection | Executable |
     | RTOS Selection | No RTOS |
-    |||
 8. `Bare Metal - minimal` を選択し、`終了` を押下する
 
 ※プロジェクト名はプロジェクト・エクスプローラー内で重複しないものである必要がある
