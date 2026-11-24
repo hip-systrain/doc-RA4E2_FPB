@@ -66,7 +66,7 @@
 ### 4.2 題材2:ボタン入力
 ### 4.3 題材3:UART出力
 
-    ```c
+  ```c
     bsp_io_level_t sw_level;
     bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
     uint16_t sw1_press_count = 0;
@@ -89,7 +89,7 @@
         // SW1のピン状態を直前の状態として保存
         previous_sw1_level = sw_level;
     }
-    ```
+  ```
 
 ### 4.4 題材4:タイマ割込み
 
