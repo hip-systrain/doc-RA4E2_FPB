@@ -65,6 +65,32 @@
 ### 4.1 題材1:LED点滅
 ### 4.2 題材2:ボタン入力
 ### 4.3 題材3:UART出力
+
+    ```c
+    bsp_io_level_t sw_level;
+    bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
+    uint16_t sw1_press_count = 0;
+    char sw1_press_count_str[8];
+    
+    R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
+
+    while(1){
+        // SW1のピン状態を取得する
+        R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
+
+        // SW1のピン状態が「押されていない」状態から「押されている」状態に変わったときにスイッチが押された回数を出力する
+        if (sw_level == BSP_IO_LEVEL_LOW){
+            if (previous_sw1_level == BSP_IO_LEVEL_HIGH){
+                snprintf(sw1_press_count_str,sizeof(sw1_press_count_str),"%d\r\n",++sw1_press_count);
+                R_SCI_UART_Write(&g_uart0_ctrl, (const uint8_t *)sw1_press_count_str, strlen(sw1_press_count_str));
+            }
+        }
+
+        // SW1のピン状態を直前の状態として保存
+        previous_sw1_level = sw_level;
+    }
+    ```
+
 ### 4.4 題材4:タイマ割込み
 
 ## 5. コーディング・ビルド・書込み(FreeRTOS)
