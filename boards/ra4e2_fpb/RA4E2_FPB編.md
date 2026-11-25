@@ -77,34 +77,77 @@
 > 確認：生成された configuration.xml ファイルをクリックし、 [Stacks]タブに[FreeRTOS Port]の Stack を確認できれば成功。
 
 ### 5.2 題材5:複数タスク
-この節では、 LED を点滅させるタスクとボタンを押した回数を数えるタスクを FreeRTOS で実装する。  
+この節では、 LED を点滅させるタスクとボタンを押した回数を数えるタスクを同時に動かすプログラムを FreeRTOS で実装する。  
 なお、本ボードでは配線の必要はない。  
-1. ワークスペースのツリーから[configuration.xml]をダブルクリックすることで選択する。
+1. [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
 2. [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
 3. [Stacks]タブにて[Threads]ペインのツリーから[New Thread]を選択する。
-4. [Treads]ペインの[Remove]を押下することで[New Thread]を削除する。
-5. [Treads]ペインの[New Thread]を押下することでスレッドを生成する。
+4. [Treads]ペインの[Remove]ボタンを押下することで[New Thread]を削除する。
+5. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
 6. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
    | 項目 | 内容 |
    | -- | -- |
    | Symbol | sw_thread |
    | Name | SW Thread |
-7. [Treads]ペインの[New Thread]を押下することでスレッドを生成する。
+7. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
 8. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
    | 項目 | 内容 |
    | -- | -- |
    | Symbol | led_thread |
    | Name | LED Thread |
-9.  [Generate Project Content]を押下することでファイルを生成する。
-10. ワークスペースのツリーから[sw_thread_entry.c]をダブルクリックすることで選択する。
-12. エディターにて[sw_thread.entry.c]ファイルに次のコードを記入する。
+9.  [Generate Project Content]ボタンを押下することでファイルを生成する。
+10. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[sw_thread_entry.c]をダブルクリックすることで選択する。
+11. エディターにて[sw_thread_entry.c]ファイルの冒頭に次のコードを記入する。
     ```c
-    
+    #include <stdio.h>
     ```
-13. ワークスペースのツリーから[led_thread_entry.c]をダブルクリックすることで選択する。
+12. エディターにて[sw_thread_entry.c]ファイルの[sw_thread_entry]関数内に次のコードを記入する。
+    ```c
+    FSP_PARAMETER_NOT_USED (pvParameters);
+
+    bsp_io_level_t sw_level;
+    bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
+    uint16_t sw1_press_count = 0;
+    char sw1_press_count_str[8];
+
+    R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
+
+    while(1){
+        // SW1のピン状態を取得する
+        R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
+
+        // SW1のピン状態が「押されていない」状態から「押されている」状態に変わったときにスイッチが押された回数を出力する
+        if (sw_level == BSP_IO_LEVEL_LOW)
+        {
+            if (previous_sw1_level == BSP_IO_LEVEL_HIGH)
+            {
+                snprintf(sw1_press_count_str,sizeof(sw1_press_count_str),"%d\r\n",++sw1_press_count);
+                R_SCI_UART_Write(&g_uart0_ctrl, (const uint8_t *)sw1_press_count_str, strlen(sw1_press_count_str));
+            }
+        }
+
+        // SW1のピン状態を直前の状態として保存
+        previous_sw1_level = sw_level;
+
+        // 10msタスクを待ち状態にする
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+    ```
+13. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[led_thread_entry.c]をダブルクリックすることで選択する。
 14. エディターにて[led_thread.entry.c]ファイルに次のコードを記入する。
     ```c
-    
+    FSP_PARAMETER_NOT_USED (pvParameters);
+
+    bsp_io_level_t led_state = BSP_IO_LEVEL_LOW;
+
+    while (1)
+    {
+        // LEDのON,OFFを切り替える
+        R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state ^= 1);
+
+        // 500msタスクを待ち状態にする
+        vTaskDelay (pdMS_TO_TICKS(500));
+    }
     ```
 15. 上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
 16. 上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
@@ -116,84 +159,80 @@
 ### 5.3 題材6:タスク間通信
 この節では、LEDの点滅速度をボタンを押して切り替えるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1. ワークスペースのツリーから[configuration.xml]をダブルクリックすることで選択する。
+1. [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
 2. [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
 3. [Stacks]タブにて[Threads]ペインのツリーから[New Thread]を選択する。
-4. [Treads]ペインの[Remove]を押下することで[New Thread]を削除する。
-5. [Treads]ペインの[New Thread]を押下することでスレッドを生成する。
+4. [Treads]ペインの[Remove]ボタンを押下することで[New Thread]を削除する。
+5. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
 6. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
    | 項目 | 内容 |
    | -- | -- |
    | Symbol | sw_thread |
    | Name | SW Thread |
-7. [Treads]ペインの[New Thread]を押下することでスレッドを生成する。
+7. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
 8. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
    | 項目 | 内容 |
    | -- | -- |
    | Symbol | led_thread |
    | Name | LED Thread |
-9.  [Generate Project Content]を押下することでファイルを生成する。
-10. ワークスペースのツリーから[sw_thread_entry.c]をダブルクリックすることで選択する。
-12. エディターにて[sw_thread.entry.c]ファイルに次のコードを記入する。
+9.  [Generate Project Content]ボタンを押下することでファイルを生成する。
+10. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[sw_thread_entry.c]をダブルクリックすることで選択する。
+12. エディターにて[sw_thread.entry.c]ファイルの[sw_thread_entry]関数内に次のコードを記入する。
     ```c
-    void sw_thread1_entry(void *pvParameters)
+    FSP_PARAMETER_NOT_USED (pvParameters);
+
+    bsp_io_level_t sw_level;
+    bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
+    uint8_t blink_mode = 0;
+
+    while (1)
     {
-        FSP_PARAMETER_NOT_USED (pvParameters);
+        // SW1のピン状態を取得する
+        R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
 
-        bsp_io_level_t sw_level;
-        bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
-        uint8_t blink_mode = 0;
-
-        while (1)
+        // SW1のピン状態が「押されていない」状態から「押されている」状態に変わったときに点滅モードを切り替える
+        if (sw_level == BSP_IO_LEVEL_LOW)
         {
-            // SW1のピン状態を取得する
-            R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
-
-            // SW1のピン状態が「押されていない」状態から「押されている」状態に変わったときに点滅モードを切り替える
-            if (sw_level == BSP_IO_LEVEL_LOW){
-                if (previous_sw1_level == BSP_IO_LEVEL_HIGH){
-                    blink_mode ^= 1;
-                }
+            if (previous_sw1_level == BSP_IO_LEVEL_HIGH)
+            {
+                blink_mode ^= 1;
             }
-
-            // キューに点滅モード状態を渡す
-            xQueueOverwrite(g_sw_queue, &blink_mode);
-
-            // SW1のピン状態を直前の状態として保存
-            previous_sw1_level = sw_level;
-
-            // 10msタスクを待ち状態にする
-            vTaskDelay (pdMS_TO_TICKS(10));
         }
+
+        // キューに点滅モード状態を渡す
+        xQueueOverwrite(g_sw_queue, &blink_mode);
+
+        // SW1のピン状態を直前の状態として保存
+        previous_sw1_level = sw_level;
+
+        // 10msタスクを待ち状態にする
+        vTaskDelay (pdMS_TO_TICKS(10));
     }
     ```
-13. ワークスペースのツリーから[led_thread_entry.c]をダブルクリックすることで選択する。
-14. エディターにて[led_thread.entry.c]ファイルに次のコードを記入する。
+13. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[led_thread_entry.c]をダブルクリックすることで選択する。
+14. エディターにて[led_thread.entry.c]ファイルの[led_thread_entry]関数内に次のコードを記入する。
     ```c
-    void led_thread_entry(void *pvParameters)
+    FSP_PARAMETER_NOT_USED (pvParameters);
+
+    uint8_t led_state = BSP_IO_LEVEL_LOW;
+    uint8_t blink_mode = 0;
+    uint16_t wait_time = 50;
+    uint16_t loop_count = wait_time;
+
+    while (1)
     {
-        FSP_PARAMETER_NOT_USED (pvParameters);
-
-        uint8_t led_state = BSP_IO_LEVEL_LOW;
-        uint8_t blink_mode = 0;
-        uint16_t wait_time = 50;
-        uint16_t loop_count = wait_time;
-
-        while (1)
-        {
-            // キューから取得した点滅モード状態によってwait_timeを変更する
-            if (xQueueReceive(g_sw_queue, &blink_mode, portMAX_DELAY)
+        // キューから取得した点滅モード状態によってwait_timeを変更する
+        if (xQueueReceive(g_sw_queue, &blink_mode, portMAX_DELAY)
             == pdPASS)
-            {
-                wait_time = (blink_mode == 1 ? 10 : 50);
-            }
+        {
+            wait_time = (blink_mode == 1 ? 10 : 50);
+        }
 
-            // loop_countが0になるたびにLEDのON,OFFを切り替える
-            if (--loop_count <= 0)
-            {
-                R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state ^= 1);
-                loop_count = wait_time;
-            }
+        // loop_countが0になるたびにLEDのON,OFFを切り替える
+        if (--loop_count <= 0)
+        {
+            R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state ^= 1);
+            loop_count = wait_time;
         }
     }
     ```
