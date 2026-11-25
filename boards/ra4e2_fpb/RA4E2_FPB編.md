@@ -42,10 +42,39 @@
 ---
 
 ## 1. 開発環境構築
+この章では、FPB-RA4E2の開発に使用するツール、ドライバをインストールする。  
+使用するツールを次に示す。  
+ - e² studio  
+ - Tera Term  
+
+使用するドライバを次に示す。  
+ - FSP  
+
+なお、FSPが同梱された状態の e² studio をインストールするため、別途でドライバのインストールは行わない。  
 
 ### 1.1 ツールのインストール
+この節では、FSP同梱版の e² studio と Tera Term をインストールする。  
+#### e² studio
+1. 下記のリンクから FSP同梱版 e² studio のインストーラをダウンロードする。  
+リンク：https://github.com/renesas/fsp/releases/download/v6.6.0/setup_fsp_v6_6_0_e2s_v2026-07.exe  
+2. `Quick Set` を選択し、`次へ` を押下する。
+
+#### Tera Term
+1. 下記のリンクから Tera Term のインストーラをダウンロードする。  
+リンク：https://github.com/TeraTermProject/teraterm/releases/download/v5.7.1/teraterm-5.7.1-x64.exe  
+2. ダウンロードしたインストーラから Tera Term をインストールする。このとき、全てデフォルトの設定でインストールする。  
+
 ### 1.2 ドライバのインストール
+[**1.1 ツールのインストール**](#11-ツールのインストール) にてFSP同梱版 e² studio をインストールするため、この節ではドライバのインストールは行わない。  
 ### 1.3 インストールできたことの確認
+この節では、e² studio と Tera Term がインストールされていることをそれぞれ確認する。  
+#### e² studio
+エクスプローラーを開き、次のパスに **e2studio.exe** があることを確認する。  
+パス：`Users\<user_name>\AppData\Local\Programs\Renesas\RA\e2studio_v2026-07_fsp_v6.6.0\eclipse`  
+
+#### Tera Term
+エクスプローラーを開き、次に示すパスに **ttermpro.exe** があることを確認する。  
+パス：`C:\Users\<user_name>\AppData\Local\Programs\teraterm5`  
 
 ## 2. シリアルターミナルの使い方
 
