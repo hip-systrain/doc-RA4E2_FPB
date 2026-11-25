@@ -64,16 +64,46 @@
 
 ### 4.1 題材1:LED点滅
 ### 4.2 題材2:ボタン入力
+この節では、スイッチを押している間LEDを点灯させるプログラムを実装する。  
+なお、本ボードでは配線の必要はない。  
+1.  [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
+2.  [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
+3.  [Generate Project Content]ボタンを押下することでファイルを生成する。
+4.  [プロジェクトエクスプローラー]ビューから[プロジェクト名\src\]下の [hal_entry.c]をダブルクリックすることで選択する。
+5.  エディターにて[hal_entry.c]ファイルの[hal_entry]関数内に次のコードを記入する。
+    ```c
+    bsp_io_level_t sw_level;
+    bsp_io_level_t led_state = BSP_IO_LEVEL_LOW;
+
+    while(1)
+    {
+        // SW1のピン状態を取得する
+        R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
+
+        // SW1が押下されているときにled_stateを点灯状態にする。
+        led_state = (sw_level == BSP_IO_LEVEL_LOW ? BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW);
+
+        // LED1の状態を更新する
+        R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state);
+    }
+    ```
+6.  上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
+7.  上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
+8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
+9.  デバッグの構成ウィザード下部の[デバッグ(D)]を押下することで、コードの書き込みとデバッグを開始する。
+ 
+> 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
+
 ### 4.3 題材3:UART出力
 
-この節では、ボタンを押した回数を数えるプログラムを実装する。  
+この節では、スイッチを押した回数を数えるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1. ワークスペースのツリーから[configuration.xml]をダブルクリックすることで選択する。
-2. [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
-3. [Stacks]タブにて[Stacks]ペインの[New Stack]ボタンを押下する。
-4. [Connectivity] > [UART(r_sci_uart)]を選択することで、スレッドに UART モジュールを追加する。
+1.  [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
+2.  [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
+3.  [Stacks]タブにて[Stacks]ペインの[New Stack]ボタンを押下する。
+4.  [Connectivity] > [UART(r_sci_uart)]を選択することで、スレッドに UART モジュールを追加する。
 5.  [Generate Project Content]ボタンを押下することでファイルを生成する。
-6.  [プロジェクトエクスプローラー]ビューから[プロジェクト名\src\]下の [hal_entry.c]を選択する。
+6.  [プロジェクトエクスプローラー]ビューから[プロジェクト名\src\]下の [hal_entry.c]をダブルクリックすることで選択する。
 7.  エディターにて[hal_entry.c]ファイルの冒頭に次のコードを記入する。
     ```c
     #include <stdio.h>
