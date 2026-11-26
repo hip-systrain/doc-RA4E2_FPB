@@ -45,36 +45,107 @@
 この章では、FPB-RA4E2の開発に使用するツール、ドライバをインストールする。  
 使用するツールを次に示す。  
  - e² studio  
- - Tera Term  
+ - Tera Term
 
 使用するドライバを次に示す。  
- - FSP  
+ - FSP(Flexible Software Package)  
 
-なお、FSPが同梱された状態の e² studio をインストールするため、別途でドライバのインストールは行わない。  
+ドライバについては、FSP同梱版の e² studio をインストールするため、別途でドライバのインストールはしない。  
 
-### 1.1 ツールのインストール
-この節では、FSP同梱版の e² studio と Tera Term をインストールする。  
-#### e² studio
-1. 下記のリンクから FSP同梱版 e² studio のインストーラをダウンロードする。  
-リンク：https://github.com/renesas/fsp/releases/download/v6.6.0/setup_fsp_v6_6_0_e2s_v2026-07.exe  
-2. `Quick Set` を選択し、`次へ` を押下する。
+### 1.1 e² studio のインストール
+1. [Renesas 公式 GitHub](https://github.com/renesas/fsp/releases) にアクセスする。  
 
-#### Tera Term
-1. 下記のリンクから Tera Term のインストーラをダウンロードする。  
-リンク：https://github.com/TeraTermProject/teraterm/releases/download/v5.7.1/teraterm-5.7.1-x64.exe  
-2. ダウンロードしたインストーラから Tera Term をインストールする。このとき、全てデフォルトの設定でインストールする。  
+1. here から e² studio のインストーラをダウンロードする。
+![e² studio ダウンロードの画面](../images/R1_e2_Download.png)  
 
-### 1.2 ドライバのインストール
-[**1.1 ツールのインストール**](#11-ツールのインストール) にてFSP同梱版 e² studio をインストールするため、この節ではドライバのインストールは行わない。  
-### 1.3 インストールできたことの確認
-この節では、e² studio と Tera Term がインストールされていることをそれぞれ確認する。  
-#### e² studio
-エクスプローラーを開き、次のパスに **e2studio.exe** があることを確認する。  
-パス：`Users\<user_name>\AppData\Local\Programs\Renesas\RA\e2studio_v2026-07_fsp_v6.6.0\eclipse`  
+1. ダウンロードした**setup_fsp_v6_6_0_e2s_v2026-07.exe** をダブルクリックする。  
+![e² studio ダウンロード選択の画面](../images/R1_e2_DownLoadSelect.png)  
 
-#### Tera Term
-エクスプローラーを開き、次に示すパスに **ttermpro.exe** があることを確認する。  
-パス：`C:\Users\<user_name>\AppData\Local\Programs\teraterm5`  
+1. 「Select which users to install for」画面が開かれ、Current user を押下する。  
+![インストールモードの選択の画面](../images/R1_e2_InstallMode.png)  
+
+1. 「インストールタイプの選択画面」が開かれ、Quick Install を押下する。  
+![インストール形式選択の画面](../images/R1_e2_SelectInstallStyle.png)  
+
+1.  Next> を押下する。  
+![インストール形式選択次への画面](../images/R1_e2_SelectInstallStyleNext.png)  
+
+1. インストールの準備画面が開かれ、Next> を押下する。  
+![インストール条件精査の画面](../images/R1_e2_VerificatetoInstall.png)  
+
+1. 「使用許諾契約書の同意」画面が開かれ、ソフトウェア契約の条件に同意します を押下する。    
+![使用許諾契約書の同意の画面](../images/R1_e2_License.png)  
+
+1.  インストール を押下する。  
+![インストール開始の画面](../images/R1_e2_SetupOK.png)  
+    >確認：e² studioのインストール完了が表示されればインストール成功   
+    ![インストール完了の画面](../images/R1_e2_InstallOK.png)  
+
+### 1.2 e² studio 初期設定
+本節では、e² studio をインストールしてはじめて起動するときに必要となる操作についての手順を記載する。  
+1.  **e2studio.exe** を起動する。  
+![e² studio 選択の画面](../images/R1_e2_PlayE2studio.png)  
+
+1. e² studio ランチャーが開かれ、この選択をデフォルトとして使用し、今後この質問を表示しない(U) を押下する。  
+![ワークスペース作成の画面](../images/R1_e2_SelectWorkSpace.png)  
+
+1. 起動 を押下する。
+![](../images/R1_e2_BootE2studio.png)
+
+### 1.3 Tera Termのインストール
+本節では、PC とマイコンをシリアル通信で接続し、データの送受信や確認をするために使用する Tera Term のインストール手順を記載する。  
+なお、Tera TermがPCにインストールされていない場合のみ、本節の手順を実施すること。 
+1. [TerTerm 公式 GitHub](https://github.com/TeraTermProject/teraterm/releases) にアクセスする。  
+
+1. Tera Term 5.7.1の Assets から **Tera Term-5.7.1-x64.exe** をダウンロードする。  
+![Tera Term ダウンロードの画面](../images/R1_tt_DownLoad.png)  
+
+1. ダウンロードした**Tera Term-5.7.1-x64.exe** をダブルクリックする。  
+![Tera Term ダウンロード選択の画面](../images/R1_tt_DownLoadSelect.png)  
+
+1. 「インストールモードの選択」画面が開かれ、現在のユーザー用にインストール(M)(推奨) を押下する。  
+![インストールモードの選択の画面](../images/R1_tt_InstallMode.png)  
+
+1. 「セットアップに使用する言語の選択」画面が開かれ、インストール中に利用する言語を**日本語**を選択する。  
+![セットアップ言語選択の画面](../images/R1_tt_InstallMode.png)  
+
+1. 「使用許諾契約書の同意」画面が開かれ、同意する(A)を押下する。  
+![使用許諾契約書の画面](../images/R1_tt_License.png)  
+
+1. 次へ(N)を押下する。  
+![使用許諾契約書次への画面](../images/R1_tt_LicenseNext.png)  
+
+1. 「インストール先の指定」画面が開かれ、次へ(N)を押下する。  
+![インストール先指定の画面](../images/R1_tt_InstallLocate.png)  
+
+1. 「コンポーネントの選択」画面が開かれ、次へ(N)を押下する。  
+![コンポーネントの選択の画面](../images/R1_tt_Component.png)  
+
+1. 「言語の選択」画面が開かれ、日本語(J)を押下する。    
+![言語の選択の画面](../images/R1_tt_Langugae.png)  
+
+1. 「スタートメニューフォルダーの指定」画面が開かれ、次へ(N)を押下する。  
+![スタートメニューフォルダーの指定画面](../images/R1_tt_StartMenu.png)  
+
+1. 「追加タスクの選択」画面が開かれ、次へ(N)を押下する。  
+![追加タスクの選択の画面](../images/R1_tt_AddTask.png)  
+
+1. 「インストールの準備完了」画面が開かれ、インストール(I)を押下する。  
+![インストール準備完了の画面](../images/R1_tt_SetupOK.png)  
+    >確認：Tera Term セットアップウィザードの完了が表示されればインストール成功  
+    ![インストール完了の画面](../images/R1_tt_InstallOK.png)  
+
+### 1.4 ボードの接続
+本節では、  と PC が USB 経由で正常に接続されていることを確認するため、  
+デバイスマネージャーを使用して PC が FPB-RA4E2 を認識しているか確認する方法を記載する。  
+1. 変換ケーブルの microB 端子を FPB-RA4E2 に接続する。  
+1. 変換ケーブルの USB 端子を PC に接続する。
+    >確認：Lチカしていれば成功。  
+接続前  
+![接続前画面](../images/.png)  
+接続後  
+![接続後画面](../images/.png)  
+    > 確認：接続後に表示されたCOMポートが表示されれば成功  
 
 ## 2. シリアルターミナルの使い方
 
