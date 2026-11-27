@@ -93,7 +93,8 @@
     <img src="../images/r2_write_and_debug_01.png" width=60%>
 8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
     <img src="../images/r2_write_and_debug_02.png" width=60%>
-9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。  
+    <img src="../images/r2_write_and_debug_03.png" width=60%>
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
@@ -131,7 +132,8 @@
     <img src="../images/r2_write_and_debug_01.png" width=60%>
 8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
     <img src="../images/r2_write_and_debug_02.png" width=60%>
-9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。  
+    <img src="../images/r2_write_and_debug_03.png" width=60%>
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
@@ -143,9 +145,9 @@
     <img src="../images/r2_fsp_config_01.png" width=60%>
 2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
     <img src="../images/r2_fsp_config_02.png" width=60%>
-3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。
+3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。  
     <img src="../images/r2_fsp_config_05.png" width=60%>
-4.   ` Connectivity `  >  ` UART(r_sci_uart) ` を選択することで、スレッドに UART モジュールを追加する。
+4.   ` Connectivity `  >  ` UART(r_sci_uart) ` を選択することで、スレッドに UART モジュールを追加する。  
     <img src="../images/r2_fsp_config_06.png" width=60%>
 5.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
     <img src="../images/r2_fsp_config_03.png" width=60%>
@@ -189,7 +191,8 @@
     <img src="../images/r2_write_and_debug_01.png" width=60%>
 11.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
     <img src="../images/r2_write_and_debug_02.png" width=60%>
-12.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+12.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。  
+    <img src="../images/r2_write_and_debug_03.png" width=60%>
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
@@ -201,25 +204,27 @@
     <img src="../images/r2_fsp_config_01.png" width=60%>
 2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
     <img src="../images/r2_fsp_config_02.png" width=60%>
-3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。
+3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。  
     <img src="../images/r2_fsp_config_05.png" width=60%>
-4.   ` Timers `  >  ` Timer, General PWM(r_gpt) ` を選択することで、スレッドに GPT モジュールを追加する。
+4.   ` Timers `  >  ` Timer, General PWM(r_gpt) ` を選択することで、スレッドに GPT モジュールを追加する。  
     <img src="../images/r2_fsp_config_06.png" width=60%>
 5.   ` プロパティー ` タブにて ` General ` 内の項目を次のように設定する。
     | 項目 | 内容 |
     |--|--|
     | Period | 500 |
     | Period Unit | Miliseconds |
+
     <img src="../images/r2_fsp_config_07.png" width=60%>
 6.   ` プロパティー ` タブにて ` Interrupts ` 内の項目を次のように設定する。
     | 項目 | 内容 |
     |--|--|
     | Callback | timer_callback |
     | Overflow/Crest Interrupt Priority | Priority 2 |
+
     <img src="../images/r2_fsp_config_08.png" width=60%>
-7.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
+7.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
     <img src="../images/r2_fsp_config_03.png" width=60%>
-8.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。
+8.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。  
     <img src="../images/r2_cording_01.png" width=60%>
 9.  エディターにて ` hal_entry.c ` ファイルに次のコードを記入することで、 ` timer_callback ` 関数を定義する。
     ```c
@@ -251,7 +256,8 @@
     <img src="../images/r2_write_and_debug_01.png" width=60%>
 13.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
     <img src="../images/r2_write_and_debug_02.png" width=60%>
-14.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+14.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。  
+    <img src="../images/r2_write_and_debug_03.png" width=60%>
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
