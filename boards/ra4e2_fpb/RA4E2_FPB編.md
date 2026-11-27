@@ -100,10 +100,14 @@
 ### 4.2 題材2:ボタン入力
 この節では、スイッチを押している間LEDを点灯させるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。
-2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。
-3.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
-4.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_fsp_config_01.png" width=60%>
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
+    <img src="../images/r2_fsp_config_02.png" width=60%>
+3.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
+    <img src="../images/r2_fsp_config_03.png" width=60%>
+4.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_cording_01.png" width=60%>
 5.  エディターにて ` hal_entry.c ` ファイルの ` hal_entry ` 関数内に次のコードを記入する。
     ```c
     bsp_io_level_t sw_level;
@@ -121,9 +125,12 @@
         R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state);
     }
     ```
-6.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
-7.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
-8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
+6.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。  
+    <img src="../images/r2_build_project_01.png" width=60%>
+7.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。  
+    <img src="../images/r2_write_and_debug_01.png" width=60%>
+8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
+    <img src="../images/r2_write_and_debug_02.png" width=60%>
 9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
@@ -132,12 +139,18 @@
 
 この節では、スイッチを押した回数を数えるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。
-2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_fsp_config_01.png" width=60%>
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
+    <img src="../images/r2_fsp_config_02.png" width=60%>
 3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。
+    <img src="../images/r2_fsp_config_05.png" width=60%>
 4.   ` Connectivity `  >  ` UART(r_sci_uart) ` を選択することで、スレッドに UART モジュールを追加する。
-5.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
-6.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。
+    <img src="../images/r2_fsp_config_06.png" width=60%>
+5.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
+    <img src="../images/r2_fsp_config_03.png" width=60%>
+6.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_cording_01.png" width=60%>
 7.  エディターにて ` hal_entry.c ` ファイルの冒頭に次のコードを記入する。
     ```c
     #include <stdio.h>
@@ -151,13 +164,16 @@
     
     R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
 
-    while(1){
+    while(1)
+    {
         // SW1のピン状態を取得する
         R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
 
         // SW1のピン状態が「押されていない」状態から「押されている」状態に変わったときにスイッチが押された回数を出力する
-        if (sw_level == BSP_IO_LEVEL_LOW){
-            if (previous_sw1_level == BSP_IO_LEVEL_HIGH){
+        if (sw_level == BSP_IO_LEVEL_LOW)
+        {
+            if (previous_sw1_level == BSP_IO_LEVEL_HIGH)
+            {
                 snprintf(sw1_press_count_str, sizeof(sw1_press_count_str), "%d\r\n", ++sw1_press_count);
                 R_SCI_UART_Write(&g_uart0_ctrl, (const uint8_t *)sw1_press_count_str, strlen(sw1_press_count_str));
             }
@@ -167,10 +183,13 @@
         previous_sw1_level = sw_level;
     }
     ```
-9.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
-10. 上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
-11. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
-12. デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+9.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。  
+    <img src="../images/r2_build_project_01.png" width=60%>
+10.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。  
+    <img src="../images/r2_write_and_debug_01.png" width=60%>
+11.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
+    <img src="../images/r2_write_and_debug_02.png" width=60%>
+12.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
@@ -178,22 +197,30 @@
 
 この節では、スイッチを押した回数を数えるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。
-2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_fsp_config_01.png" width=60%>
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
+    <img src="../images/r2_fsp_config_02.png" width=60%>
 3.   ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。
+    <img src="../images/r2_fsp_config_05.png" width=60%>
 4.   ` Timers `  >  ` Timer, General PWM(r_gpt) ` を選択することで、スレッドに GPT モジュールを追加する。
+    <img src="../images/r2_fsp_config_06.png" width=60%>
 5.   ` プロパティー ` タブにて ` General ` 内の項目を次のように設定する。
     | 項目 | 内容 |
     |--|--|
     | Period | 500 |
     | Period Unit | Miliseconds |
+    <img src="../images/r2_fsp_config_07.png" width=60%>
 6.   ` プロパティー ` タブにて ` Interrupts ` 内の項目を次のように設定する。
     | 項目 | 内容 |
     |--|--|
     | Callback | timer_callback |
     | Overflow/Crest Interrupt Priority | Priority 2 |
+    <img src="../images/r2_fsp_config_08.png" width=60%>
 7.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
+    <img src="../images/r2_fsp_config_03.png" width=60%>
 8.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。
+    <img src="../images/r2_cording_01.png" width=60%>
 9.  エディターにて ` hal_entry.c ` ファイルに次のコードを記入することで、 ` timer_callback ` 関数を定義する。
     ```c
     void timer_callback(timer_callback_args_t * p_args)
@@ -218,10 +245,13 @@
 
     while(1);
     ```
-11. 上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
-12. 上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
-13. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
-14. デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
+11.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。  
+    <img src="../images/r2_build_project_01.png" width=60%>
+12.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。  
+    <img src="../images/r2_write_and_debug_01.png" width=60%>
+13.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
+    <img src="../images/r2_write_and_debug_02.png" width=60%>
+14.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
