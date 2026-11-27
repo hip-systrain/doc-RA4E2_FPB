@@ -160,14 +160,34 @@
     | Overflow/Crest Interrupt Priority | Priority 2 |
 7.  [Generate Project Content]ボタンを押下することでファイルを生成する。
 8.  [プロジェクトエクスプローラー]ビューから[プロジェクト名\src\]下の [hal_entry.c]をダブルクリックすることで選択する。
-9.  エディターにて[hal_entry.c]ファイルの[hal_entry]関数内に次のコードを記入する。
+9.  エディターにて[hal_entry.c]ファイルに次のコードを記入することで、[timer_callback]関数を定義する。
     ```c
-    
+    void timer_callback(timer_callback_args_t * p_args)
+    {
+        FSP_PARAMETER_NOT_USED(p_args);
+
+        // LED1の状態を読み取る
+        bsp_io_level_t led_state;
+        R_IOPORT_PinRead(&g_ioport_ctrl, LED1, &led_state);
+
+        // LED1のON,OFFを反転する
+        R_IOPORT_PinWrite(&g_ioport_ctrl, LED1, led_state^1);
+
+        return;
+    }
     ```
-10. 上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
-11. 上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
-12. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
-13. デバッグの構成ウィザード下部の[デバッグ(D)]を押下することで、コードの書き込みとデバッグを開始する。
+10. エディターにて[hal_entry.c]ファイルの[hal_entry]関数内に次のコードを記入する。
+    ```c
+    // GPTを起動する
+    R_GPT_Open(&g_timer0_ctrl, &g_timer0_cfg);
+    R_GPT_Start(&g_timer0_ctrl);
+
+    while(1);
+    ```
+11. 上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
+12. 上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
+13. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
+14. デバッグの構成ウィザード下部の[デバッグ(D)]を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
