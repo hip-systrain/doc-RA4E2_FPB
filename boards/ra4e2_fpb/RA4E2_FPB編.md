@@ -65,10 +65,14 @@
 ### 4.1 題材1:LED点滅
 この節では、スイッチを押している間LEDを点灯させるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。
-2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。
-3.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
-4.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_fsp_config_01.png" width=60%>
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
+    <img src="../images/r2_fsp_config_02.png" width=60%>
+3.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
+    <img src="../images/r2_fsp_config_03.png" width=60%>
+4.   ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の  ` hal_entry.c ` をダブルクリックすることで選択する。  
+    <img src="../images/r2_cording_01.png" width=60%>
 5.  エディターにて ` hal_entry.c ` ファイルの ` hal_entry ` 関数内に次のコードを記入する。
     ```c
     bsp_io_level_t led_state = BSP_IO_LEVEL_LOW;
@@ -83,9 +87,12 @@
         R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
     }
     ```
-6.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
-7.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
-8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
+6.  上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。  
+    <img src="../images/r2_build_project_01.png" width=60%>
+7.  上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。  
+    <img src="../images/r2_write_and_debug_01.png" width=60%>
+8.  デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。  
+    <img src="../images/r2_write_and_debug_02.png" width=60%>
 9.  デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
