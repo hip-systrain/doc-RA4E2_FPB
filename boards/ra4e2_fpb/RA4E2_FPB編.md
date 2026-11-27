@@ -71,48 +71,65 @@
 この章では、 FreeRTOS を導入した題材を実装する。
 ### 5.1 FreeRTOSの導入・設定
 この節では、 FreeRTOS を導入したプロジェクトを作成する。
-1. プロジェクト作成ウィザードの[Build Artifact and RTOS Selection]ページにて、[RTOS Selection]の項目を[FreeRTOS]に設定する。
+1. プロジェクト作成ウィザードの ` Build Artifact and RTOS Selection ` ページにて、 ` RTOS Selection ` の項目を ` FreeRTOS ` に設定する。
 2. その他の項目を新規プロジェクトの作成と同じに設定する。
 3. プロジェクト作成ウィザードを終了する。
-> 確認：生成された configuration.xml ファイルをクリックし、 [Stacks]タブに[FreeRTOS Port]の Stack を確認できれば成功。
+> 確認：生成された configuration.xml ファイルをクリックし、 ` Stacks ` タブに ` FreeRTOS Port ` の Stack を確認できれば成功。
 
 ### 5.2 題材5:複数タスク
 この節では、 LED を点滅させるタスクとボタンを押した回数を数えるタスクを同時に動かすプログラムを FreeRTOS で実装する。  
 なお、本ボードでは配線の必要はない。  
-1. [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
-2. [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
-3. [Stacks]タブにて[Threads]ペインのツリーから[New Thread]を選択する。
-4. [Treads]ペインの[Remove]ボタンを押下することで[New Thread]を削除する。
-5. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
-6. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
-   | 項目 | 内容 |
-   | -- | -- |
-   | Symbol | sw_thread |
-   | Name | SW Thread |
-7. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
-8. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
-   | 項目 | 内容 |
-   | -- | -- |
-   | Symbol | led_thread |
-   | Name | LED Thread |
-9.  [Generate Project Content]ボタンを押下することでファイルを生成する。
-10. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[sw_thread_entry.c]をダブルクリックすることで選択する。
-11. エディターにて[sw_thread_entry.c]ファイルの冒頭に次のコードを記入する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。  
+    <img src="../images/r3_fsp_config_01.png" width=60%>
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。  
+    <img src="../images/r3_fsp_config_02.png" width=60%>
+3.   ` Stacks ` タブにて ` Threads ` ペインのツリーから ` New Thread ` を選択する。  
+    <img src="../images/r3_fsp_config_05.png" width=60%>
+4.   ` Treads ` ペインの ` Remove ` ボタンを押下することで ` New Thread ` を削除する。  
+    <img src="../images/r3_fsp_config_06.png" width=60%>
+5.   ` Treads ` ペインの ` New Thread ` ボタンを押下することでスレッドを生成する。  
+    <img src="../images/r3_fsp_config_08.png" width=60%>
+6.   ` プロパティー ` タブにて ` Tread ` の ` Symbol ` と ` Name ` を次のように設定する。  
+    | 項目 | 内容 |
+    | -- | -- |
+    | Symbol | sw_thread |
+    | Name | SW Thread |
+
+    <img src="../images/r3_fsp_config_09.png" width=60%>
+7.   ` Treads ` ペインの ` New Thread ` ボタンを押下することでスレッドを生成する。
+8.   ` プロパティー ` タブにて ` Tread ` の ` Symbol ` と ` Name ` を次のように設定する。
+    | 項目 | 内容 |
+    | -- | -- |
+    | Symbol | led_thread |
+    | Name | LED Thread |
+
+    <img src="../images/r3_fsp_config_10.png" width=60%>
+9.  ` Stacks ` タブにて ` Threads ` ペインのツリーから ` SW Thread ` を選択する。  
+    <img src="../images/r3_fsp_config_11.png" width=60%>
+10. ` Stacks ` タブにて ` Stacks ` ペインの ` New Stack ` ボタンを押下する。  
+    <img src="../images/r2_fsp_config_12.png" width=60%>
+11. ` Connectivity `  >  ` UART(r_sci_uart) ` を選択することで、スレッドに UART モジュールを追加する。  
+    <img src="../images/r2_fsp_config_13.png" width=60%>
+12. ` Generate Project Content ` ボタンを押下することでファイルを生成する。  
+    <img src="../images/r3_fsp_config_14.png" width=60%>
+13. ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の ` sw_thread_entry.c ` をダブルクリックすることで選択する。
+14. エディターにて ` sw_thread_entry.c ` ファイルの冒頭に次のコードを記入する。
     ```c
     #include <stdio.h>
     ```
-12. エディターにて[sw_thread_entry.c]ファイルの[sw_thread_entry]関数内に次のコードを記入する。
+15. エディターにて ` sw_thread_entry.c ` ファイルの ` sw_thread_entry ` 関数内に次のコードを記入する。
     ```c
     FSP_PARAMETER_NOT_USED (pvParameters);
 
     bsp_io_level_t sw_level;
     bsp_io_level_t previous_sw1_level = BSP_IO_LEVEL_HIGH;
     uint16_t sw1_press_count = 0;
-    char sw1_press_count_str[8];
+    char sw1_press_count_str [8];
 
     R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
 
-    while(1){
+    while(1)
+    {
         // SW1のピン状態を取得する
         R_IOPORT_PinRead(&g_ioport_ctrl, SW1, &sw_level);
 
@@ -133,8 +150,8 @@
         vTaskDelay(pdMS_TO_TICKS(10));
     }
     ```
-13. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[led_thread_entry.c]をダブルクリックすることで選択する。
-14. エディターにて[led_thread.entry.c]ファイルに次のコードを記入する。
+16.  ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の ` led_thread_entry.c ` をダブルクリックすることで選択する。
+17. エディターにて ` led_thread.entry.c ` ファイルに次のコードを記入する。
     ```c
     FSP_PARAMETER_NOT_USED (pvParameters);
 
@@ -149,35 +166,35 @@
         vTaskDelay (pdMS_TO_TICKS(500));
     }
     ```
-15. 上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
-16. 上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
-17. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
-18. デバッグの構成ウィザード下部の[デバッグ(D)]を押下することで、コードの書き込みとデバッグを開始する。
+18. 上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
+19. 上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
+20. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
+21. デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
 ### 5.3 題材6:タスク間通信
 この節では、LEDの点滅速度をボタンを押して切り替えるプログラムを実装する。  
 なお、本ボードでは配線の必要はない。  
-1. [プロジェクトエクスプローラー]ビューから[configuration.xml]をダブルクリックすることで選択する。
-2. [Pins]タブにてLED1が接続されているピン(P207)の[Mode]項目を[Output Mode (Initial Low)]に設定する。
-3. [Stacks]タブにて[Threads]ペインのツリーから[New Thread]を選択する。
-4. [Treads]ペインの[Remove]ボタンを押下することで[New Thread]を削除する。
-5. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
-6. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
-   | 項目 | 内容 |
-   | -- | -- |
-   | Symbol | sw_thread |
-   | Name | SW Thread |
-7. [Treads]ペインの[New Thread]ボタンを押下することでスレッドを生成する。
-8. [プロパティー]タブにて[Tread]の[Symbol]と[Name]を次のように設定する。
-   | 項目 | 内容 |
-   | -- | -- |
-   | Symbol | led_thread |
-   | Name | LED Thread |
-9.  [Generate Project Content]ボタンを押下することでファイルを生成する。
-10. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[sw_thread_entry.c]をダブルクリックすることで選択する。
-12. エディターにて[sw_thread.entry.c]ファイルの[sw_thread_entry]関数内に次のコードを記入する。
+1.   ` プロジェクトエクスプローラー ` ビューから ` configuration.xml ` をダブルクリックすることで選択する。
+2.   ` Pins ` タブにてLED1が接続されているピン(P207)の ` Mode ` 項目を ` Output Mode (Initial Low) ` に設定する。
+3.   ` Stacks ` タブにて ` Threads ` ペインのツリーから ` New Thread ` を選択する。
+4.   ` Treads ` ペインの ` Remove ` ボタンを押下することで ` New Thread ` を削除する。
+5.   ` Treads ` ペインの ` New Thread ` ボタンを押下することでスレッドを生成する。
+6.   ` プロパティー ` タブにて ` Tread ` の ` Symbol ` と ` Name ` を次のように設定する。
+    | 項目 | 内容 |
+    | -- | -- |
+    | Symbol | sw_thread |
+    | Name | SW Thread |
+7.   ` Treads ` ペインの ` New Thread ` ボタンを押下することでスレッドを生成する。
+8.   ` プロパティー ` タブにて ` Tread ` の ` Symbol ` と ` Name ` を次のように設定する。
+    | 項目 | 内容 |
+    | -- | -- |
+    | Symbol | led_thread |
+    | Name | LED Thread |
+9.   ` Generate Project Content ` ボタンを押下することでファイルを生成する。
+10.  ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の ` sw_thread_entry.c ` をダブルクリックすることで選択する。
+12. エディターにて ` sw_thread.entry.c ` ファイルの ` sw_thread_entry ` 関数内に次のコードを記入する。
     ```c
     FSP_PARAMETER_NOT_USED (pvParameters);
 
@@ -209,8 +226,8 @@
         vTaskDelay (pdMS_TO_TICKS(10));
     }
     ```
-13. [プロジェクトエクスプローラー]ビューから[プロジェクト名\src]下の[led_thread_entry.c]をダブルクリックすることで選択する。
-14. エディターにて[led_thread.entry.c]ファイルの[led_thread_entry]関数内に次のコードを記入する。
+13.  ` プロジェクトエクスプローラー ` ビューから ` src\ ` 下の ` led_thread_entry.c ` をダブルクリックすることで選択する。
+14. エディターにて ` led_thread.entry.c ` ファイルの ` led_thread_entry ` 関数内に次のコードを記入する。
     ```c
     FSP_PARAMETER_NOT_USED (pvParameters);
 
@@ -236,10 +253,10 @@
         }
     }
     ```
-15. 上部リボンから[プロジェクト(P)] > [プロジェクトのビルド(B)]を選択することでプロジェクトをビルドする。
-16. 上部リボンから[実行(R)] > [デバッグの構成(B)…]を選択することでデバッグの構成ウィザードを開く。
+15. 上部リボンから ` プロジェクト(P) `  >  ` プロジェクトのビルド(B) ` を選択することでプロジェクトをビルドする。
+16. 上部リボンから ` 実行(R) `  >  ` デバッグの構成(B)… ` を選択することでデバッグの構成ウィザードを開く。
 17. デバッグの構成ウィザードのツリーから現在のプロジェクトを選択する。
-18. デバッグの構成ウィザード下部の[デバッグ(D)]を押下することで、コードの書き込みとデバッグを開始する。
+18. デバッグの構成ウィザード下部の ` デバッグ(D) ` を押下することで、コードの書き込みとデバッグを開始する。
  
 > 確認：デバッグを続け、マイコンボードが期待通りに動作すれば成功。
 
