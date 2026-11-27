@@ -55,52 +55,75 @@
 
 ## 3. プロジェクト作成
 この章では、e² studio にて新規にFPB-RA4E2用のプロジェクトを作成する手順と、プロジェクトの構成について記載する。  
+
 ### 3.1 新規プロジェクトの作成
 この節では、RTOSなしの新規プロジェクトを作成する。  
-1. タスクバーの `ファイル` から、`新規` > `Renesas C/C++ Project` > `Renesas RA` を選択する。
-2. `Renesas RA C/C++ Project` を選択し、`次へ` を押下する。
-3. プロジェクト名を記入と、`デフォルト・ロケーションの使用` にチェックを入れた後、`次へ` を押下する。
-4. 各項目を表〇に示す値に設定・選択し、`次へ` を押下する。  
-**表：**  
-    | 項目 | 値 |
-    |:-|:-|
-    | ① | 6.6.0 |
-    | ② | FPB-RA4E2 |
-    | ③ | R7FA4E2B93CFM |
-    | ④ | C |
-    | ⑤ | e² studio managed build |
-    | ⑥ | LLVM Embedded Toolchain for Arm |
-    | ⑦ | 22.1.0 |
-    | ⑧ | J-Link ARM |
-5. `Flat (Non-TrustZone) Project` を選択し、`次へ` を押下する。
-6. `None` を選択し、`次へ` を押下する。
-7. 各項目より表〇に示す値を選択し、`次へ` を押下する。  
-**表：**  
-    | 項目 | 値 |
-    |:-|:-|
-    | ① | Executable |
-    | ② | No RTOS |
-8. `Bare Metal - minimal` を選択し、`終了` を押下する。
+1. タスクバーから `ファイル` > `新規` > `Renesas C/C++ Project` > `Renesas RA` を選択する。  
+![ファイル作成開始の画面](../images/R1_3_CreateProject.png)  
+
+1.  `Renesas RA C/C++ Project` を押下する。  
+![テンプレ選択の画面](..\images\R1_3_SelectProjectTemplate.png)  
+
+1.  `次へ` を押下する。  
+![テンプレ選択次への画面](..\images\R1_3_SelectProjectTemplateNext.png)  
+
+1.  `Project name`を記入する。  
+![プロジェクト名入力の画面](..\images\R1_3_ProjectName.png)  
+
+1.  `次へ` を押下する。  
+![プロジェクト名入力次への画面](..\images\R1_3_ProjectNameNext.png)  
+
+1.  `Device Selection` の `Board` を `FPB-RA4E2` に設定する。  
+![ボード選択の画面](..\images\R1_3_SelectBoard.png)  
+
+1.  `次へ` を押下する。  
+![ボード選択次への画面](..\images\R1_3_SelectBoardNext.png)  
+
+1.  `次へ` を押下する。  
+![バンドル選択次への画面](..\images\R1_3_SelectSmartBundleNext.png)  
+
+1.  `次へ` を押下する。  
+![プロジェクトタイプ選択次への画面](..\images\R1_3_SelectProjectTypeNext.png)  
+
+1.  `次へ` を押下する。  
+![RTOS選択の画面](..\images\R1_3_SelectBuildArtifactandRtosNext.png)  
+
+1.  `次へ` を押下する。  
+![RTOS選択次への画面](..\images\R1_3_SelectBuildArtifactandRtosNext.png)  
+
+1.  `Bare Metal - minimal` を選択する。  
+![Minimal選択の画面](..\images\R1_3_SelectMinimal.png)  
+
+1.  `終了` を押下する。  
+![プロジェクト作成設定完了の画面](..\images\R1_3_ProjectTempEnd.png)  
+    >確認： `プロジェクト・ワークスペース` 内に作成したプロジェクトが作成されていれば成功  
+    ![プロジェクト作成後の画面](..\images\R1_3_CreateProjectAfter.png)  
 
 ### 3.2 プロジェクトの構成(フォルダ・ファイルの役割)
-e² studioでは、ユーザーがコードの編集とFSPの設定を行うことで、ソースコードを自動生成することができる。この節では、ソースコードの編集、FSPの設定を行う場所とソースコードを自動生成する方法を記載する。  
+この節ではプロジェクトの構成とフォルダ・ファイルの役割について記載する。  
 
-#### ソースコードの編集
-プロジェクトの各フォルダ下にあるファイルに対し、ユーザーによるコードの編集の可・不可を表〇に示す。  
+プロジェクト直下のフォルダとファイルの概要、およびユーザーによる編集の可・不可を表〇に示す。  
 **表〇：**  
-| フォルダ名 | ユーザーによる編集 |
-|:-|:-:|
-| ra | ○ |
-| ra_gen | × |
-| src | ○ |
-| Debug | × |
-| script | × |
+| フォルダ / ファイル名 | 概要 | ユーザーによる編集 |
+| :- | :- | :-: |  
+| ra | FSP のドライバ本体や CMSIS 関連ファイルを格納するフォルダ | × |  
+| ra_gen | ピン設定やドライバ初期化コードなど FSP が自動生成するソース・ヘッダファイルを格納するフォルダ | × |  
+| src | ユーザーが記述するアプリケーションコードを格納するフォルダ | ○ |  
+| Debug | ビルド成果物を格納するフォルダ | × |  
+| ra_cfg | スマート・コンフィグレータの設定をもとに自動生成されるヘッダを格納するフォルダ | × |  
+| script | リンカスクリプトやビルド・配置制御用のスクリプトを格納するフォルダ | 〇 |  
+| configuration.xml | ピン配置・クロック・ドライバ構成を保存するFSPの設定ファイル<br>ソースコードの自動生成を行う | 〇 |  
 
-#### FSPの設定・ソースコードの自動生成
-FSPの設定とソースコードの自動生成はプロジェクト直下にある `configuration.xml` を選択することで表示されるコンフィグレーションエディタから行う。  
+#### コンフィグレーションエディタ (configration.xml)
+ソースコードの自動生成およびFSPの設定は、プロジェクト直下にある `configuration.xml` を押下することで表示される `コンフィグレーションエディタ` から行う。  
 コンフィグレーションエディタの構成を図〇に示す。  
 図〇：<!--(生成ボタン、タブの中身、タブ一覧、を示す)-->  
-各タブの概要を表〇に示す。各タブの詳細については[Renesas公式資料](https://www.renesas.com/ja/document/qsg/renesas-ra-family-e2-studio-2023-10-or-higher-quick-start-guide?queryID=741640390418727f4c23eb0aa50d46ce)を参照すること。  
+![コンフィグレーションエディタ構成の画面](..\images\R1_3_RefConfig.png)   
+①：押下することでソースコードが自動生成される  
+②：FSPの設定を行う  
+③：FSPの設定するタブを切り替える  
+
+コンフィグレーションエディタのタブについて、各タブの概要を表〇に示す。タブの詳細は[Renesas公式資料](https://www.renesas.com/ja/document/qsg/renesas-ra-family-e2-studio-2023-10-or-higher-quick-start-guide?queryID=741640390418727f4c23eb0aa50d46ce)を参照すること。  
 表：  
 | タブ名 | 概要 |
 |:-|:-|
